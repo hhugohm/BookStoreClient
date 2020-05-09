@@ -3,6 +3,7 @@ package bookstore.client.jndi;
 
 import bookstore.backend.annotations.SuppressLogging;
 import bookstore.backend.api.BookstoreDAO;
+import bookstore.backend.dao.BookstoreDAOImpl;
 import bookstore.backend.datamodel.Book;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,7 +20,10 @@ public class JNDIClient {
     
     
     public static void main(String[] args) {
-       
+        
+        System.out.println(getBookById(1).toString());
+        System.out.println("-----------------------------------------");
+        update(1);
         System.out.println(getBookById(1).toString());
         
     }
@@ -47,6 +51,13 @@ public class JNDIClient {
         
      return book;
         
+    }
+    
+    private static void update(int idBook){
+         BookstoreDAO bookstoreDAO = getBooksstoreDAO();
+         Book book= bookstoreDAO.getBookById(idBook);
+         book.setTitle("My Book 1 U1");
+         bookstoreDAO.update(book);
     }
     
 }
