@@ -24,9 +24,9 @@ public class JNDIClient {
     public static void main(String[] args) {
         
         System.out.println(getBookById(1).toString());
-        //System.out.println("-----------------------------------------");
-        //update(1);
-        //System.out.println(getBookById(1).toString());
+        System.out.println("-----------------------------------------");
+        update(1);
+        System.out.println(getBookById(1).toString());
         
         //add();
         
@@ -60,7 +60,7 @@ public class JNDIClient {
     private static void update(int idBook){
          BookstoreDAO bookstoreDAO = getBooksstoreDAO();
          Book book= bookstoreDAO.getBookById(idBook);
-         book.setTitle("My Book 1 U1");
+         book.setTitle("My Book 1 U2");
          bookstoreDAO.update(book);
     }
     
