@@ -3,8 +3,10 @@ package bookstore.client.jndi;
 
 import bookstore.backend.annotations.SuppressLogging;
 import bookstore.backend.api.BookstoreDAO;
+import bookstore.backend.api.ShoppingCartService;
 import bookstore.backend.dao.BookstoreDAOImpl;
 import bookstore.backend.datamodel.Book;
+import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
@@ -22,9 +24,11 @@ public class JNDIClient {
     public static void main(String[] args) {
         
         System.out.println(getBookById(1).toString());
-        System.out.println("-----------------------------------------");
-        update(1);
-        System.out.println(getBookById(1).toString());
+        //System.out.println("-----------------------------------------");
+        //update(1);
+        //System.out.println(getBookById(1).toString());
+        
+        add();
         
     }
     
@@ -59,5 +63,41 @@ public class JNDIClient {
          book.setTitle("My Book 1 U1");
          bookstoreDAO.update(book);
     }
+    
+    
+    private static void add(){
+        BookstoreDAO bookstoreDAO = new BookstoreDAOImpl();
+        ShoppingCartService shoppingCartService= getShoppingCartService();
+        
+        int ids[] = {1,2,3,4,5};
+        for(int id: ids){
+            Book book = bookstoreDAO.getBookById(id);
+            shoppingCartService.add(book);
+            List<Book> books = shoppingCartService.getItems();
+            System.out.println("item: " + books);
+            try{
+                Thread.currentThread().sleep(5000);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+    }
+    
+    private  static ShoppingCartService getShoppingCartService(){
+        ShoppingCartService shoppingCartService = null;
+        
+        try{
+            Context ctx = new InitialContext();
+            shoppingCartService= (ShoppingCartService)ctx.lookup("java:global/BookstoreBackend/ShoppingCartIService");
+            //System.out.println("###### ShoppingCartService: "+shoppingCartService);
+           
+        
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return shoppingCartService;
+    } 
     
 }
