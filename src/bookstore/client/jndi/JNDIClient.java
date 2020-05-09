@@ -28,7 +28,7 @@ public class JNDIClient {
         //update(1);
         //System.out.println(getBookById(1).toString());
         
-        add();
+        //add();
         
     }
     
